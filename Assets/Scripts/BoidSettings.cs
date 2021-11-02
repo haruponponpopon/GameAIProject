@@ -1,4 +1,9 @@
-﻿using System.Collections;
+﻿/*
+Copyright (c) 2019 Sebastian Lague
+Released under the MIT license
+https://github.com/SebLague/Boids/blob/master/LICENSE
+*/
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
