@@ -1415,6 +1415,7 @@ MonoBehaviour:
   centreOfFlockmates: {x: 0, y: 0, z: 0}
   numPerceivedFlockmates: 0
   blueMat: {fileID: 2100000, guid: 4cf089456002947f5a69b1a5967819c1, type: 2}
+  yellowMat: {fileID: 2100000, guid: bedc76c2160b3492db1d6af3b216cb6e, type: 2}
 --- !u!1 &8174541542333862496
 GameObject:
   m_ObjectHideFlags: 0

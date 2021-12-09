@@ -34,6 +34,7 @@ public class Boid : MonoBehaviour {
     // Cached
     Material material;
     public Material blueMat;
+    public Material yellowMat;
     Transform cachedTransform;         //transformへのアクセスは重いのでキャッシュする
 
     void Awake () {
@@ -45,6 +46,8 @@ public class Boid : MonoBehaviour {
         this.type=type;
         if(type==1){
             transform.GetChild(1).GetComponent<SkinnedMeshRenderer>().material=blueMat;    //if two species exist, change color
+        }else if (type==2){
+            transform.GetChild(1).GetComponent<SkinnedMeshRenderer>().material=yellowMat;
         }
         
 
