@@ -22,9 +22,7 @@ public class BoidManager : MonoBehaviour {
             int type;
             if (existTwoSpecies){
                 float num = Random.value;
-                if (num<0.3)type = 0;
-                else if (num<0.6)type = 1;
-                else type = 2;
+                type = (int)(num*10);
             }else{
                 type = 0;
             }

@@ -34,7 +34,15 @@ public class Boid : MonoBehaviour {
     // Cached
     Material material;
     public Material blueMat;
+    public Material greenMat;
+    public Material lightGreenMat;
+    public Material orangeMat;
+    public Material pinkMat;
+    public Material purpleMat;
+    public Material skyblueMat;
+    public Material whiteMat;
     public Material yellowMat;
+
     Transform cachedTransform;         //transformへのアクセスは重いのでキャッシュする
 
     void Awake () {
@@ -42,13 +50,17 @@ public class Boid : MonoBehaviour {
     }
 
     public void Initialize (BoidSettings settings,int type) {
+        Material[] material_array = new Material[10] {material, blueMat, greenMat, lightGreenMat, orangeMat, pinkMat, purpleMat, skyblueMat, whiteMat, yellowMat};
         this.settings = settings;
         this.type=type;
-        if(type==1){
-            transform.GetChild(1).GetComponent<SkinnedMeshRenderer>().material=blueMat;    //if two species exist, change color
-        }else if (type==2){
-            transform.GetChild(1).GetComponent<SkinnedMeshRenderer>().material=yellowMat;
-        }
+        transform.GetChild(1).GetComponent<SkinnedMeshRenderer>().material=material_array[type];
+        // if(type==1){
+        //     transform.GetChild(1).GetComponent<SkinnedMeshRenderer>().material=blueMat;    //if two species exist, change color
+        // }else if (type==2){
+        //     transform.GetChild(1).GetComponent<SkinnedMeshRenderer>().material=greenMat;
+        // }else if (type==3){
+        //     transform.GetChild(1).GetComponent<SkinnedMeshRenderer>().material=yellowMat;
+        // }
         
 
         position = cachedTransform.position;
