@@ -30,8 +30,8 @@ class Point
 public class DBSCANAlgorithm : MonoBehaviour
 {
     Boid[] boids;
-    double eps = 10.0;//小さくするほどクラスターが多くなる
-    int minPts = 3;
+    double eps = 2.0;//小さくするほどクラスターが多くなる
+    int minPts = 1;
     void Start()
     {
         List<Point> points = new List<Point>();
@@ -39,30 +39,30 @@ public class DBSCANAlgorithm : MonoBehaviour
         foreach (Boid b in boids) {
             points.Add(new Point(b.position[0], b.position[1], b.position[2]));
         }
-        List<List<Point>> clusters = GetClusters(points, eps, minPts);
+        List<List<int>> clusters = GetClusters(points, eps, minPts);
         Console.Clear();
         // print points to console
         // Console.WriteLine("The {0} points are :\n", points.Count);
-        Debug.Log("The " + points.Count +  " points are :\n");
-        foreach (Point p in points) Console.Write(" {0} ", p);
-        Console.WriteLine();
+        // Debug.Log("The " + points.Count +  " points are :\n");
         // print clusters to console
         int total = 0;
+        Debug.Log("Cluster count is " + clusters.Count + "\n");
         for (int i = 0; i < clusters.Count; i++)
         {
             int count = clusters[i].Count;
             total += count;
-            string plural = (count != 1) ? "s" : "";
+            // string plural = (count != 1) ? "s" : "";
             // Console.WriteLine("\nCluster {0} consists of the following {1} point{2} :\n", i + 1, count, plural);
-            Debug.Log("Cluster" + i);
-            foreach (Point p in clusters[i]) {
-                Debug.Log(p);
+            // Debug.Log("Cluster" + i);
+            foreach (int p in clusters[i]) {//pはboidsの何番目か
+                // Debug.Log(p);
+                boids[p].type = i;
                 // Console.Write(" {0} ", p);
             }
-            Console.WriteLine();
         }
         // print any points which are NOISE
         total = points.Count - total;
+        Debug.Log(total+" points are noise\n");
         if (total > 0)
         {
             string plural = (total != 1) ? "s" : "";
@@ -87,26 +87,21 @@ public class DBSCANAlgorithm : MonoBehaviour
         foreach (Boid b in boids) {
             points.Add(new Point(b.position[0], b.position[1], b.position[2]));
         }
-        List<List<Point>> clusters = GetClusters(points, eps, minPts);
-        Console.Clear();
+        List<List<int>> clusters = GetClusters(points, eps, minPts);
         // print points to console
-        // Console.WriteLine("The {0} points are :\n", points.Count);
-        Debug.Log("The " + points.Count +  " points are :\n");
-        foreach (Point p in points) Console.Write(" {0} ", p);
-        Console.WriteLine();
+        // Debug.Log("The " + points.Count +  " points are :\n");
         // print clusters to console
         int total = 0;
+        Debug.Log("Cluster count is " + clusters.Count + "\n");
         for (int i = 0; i < clusters.Count; i++)
         {
             int count = clusters[i].Count;
             total += count;
-            string plural = (count != 1) ? "s" : "";
-            // Console.WriteLine("\nCluster {0} consists of the following {1} point{2} :\n", i + 1, count, plural);
-            Debug.Log("Cluster" + i);
-            Debug.Log(count);
-            foreach (Point p in clusters[i]) {
+            // Debug.Log("Cluster" + i);
+            // Debug.Log(count);
+            foreach (int p in clusters[i]) {
                 // Debug.Log(p);
-                // Console.Write(" {0} ", p);
+                boids[p].type = i;
             }
             Console.WriteLine();
         }
@@ -129,10 +124,10 @@ public class DBSCANAlgorithm : MonoBehaviour
         }
         Console.ReadKey();
     }
-    static List<List<Point>> GetClusters(List<Point> points, double eps, int minPts)
+    static List<List<int>> GetClusters(List<Point> points, double eps, int minPts)
     {
         if (points == null) return null;
-        List<List<Point>> clusters = new List<List<Point>>();
+        List<List<int>> clusters = new List<List<int>>();
         eps *= eps; // square eps
         int clusterId = 1;
         for (int i = 0; i < points.Count; i++)
@@ -146,10 +141,11 @@ public class DBSCANAlgorithm : MonoBehaviour
         // sort out points into their clusters, if any
         int maxClusterId =  (int)points.OrderBy(p => p.ClusterId).Last().ClusterId;
         if (maxClusterId < 1) return clusters; // no clusters, so list is empty
-        for (int i = 0; i < maxClusterId; i++) clusters.Add(new List<Point>());
-        foreach (Point p in points)
+        for (int i = 0; i < maxClusterId; i++) clusters.Add(new List<int>());
+        for(int i = 0; i < points.Count; i++)
         {
-            if (p.ClusterId > 0) clusters[(int)p.ClusterId - 1].Add(p);
+            Point p = points[i];
+            if (p.ClusterId > 0) clusters[(int)p.ClusterId - 1].Add(i);
         }
         return clusters;
     }

@@ -32,7 +32,8 @@ public class Boid : MonoBehaviour {
     public int numPerceivedFlockmates;
 
     // Cached
-    Material material;
+    public Material material;
+    public Material redMat;
     public Material blueMat;
     public Material greenMat;
     public Material lightGreenMat;
@@ -50,10 +51,10 @@ public class Boid : MonoBehaviour {
     }
 
     public void Initialize (BoidSettings settings,int type) {
-        Material[] material_array = new Material[10] {material, blueMat, greenMat, lightGreenMat, orangeMat, pinkMat, purpleMat, skyblueMat, whiteMat, yellowMat};
+        Material[] material_array = new Material[10] {redMat, blueMat, greenMat, lightGreenMat, orangeMat, pinkMat, purpleMat, skyblueMat, whiteMat, yellowMat};
         this.settings = settings;
         this.type=type;
-        transform.GetChild(1).GetComponent<SkinnedMeshRenderer>().material=material_array[type];
+        transform.GetChild(1).GetComponent<SkinnedMeshRenderer>().material=material_array[type+1];
         // if(type==1){
         //     transform.GetChild(1).GetComponent<SkinnedMeshRenderer>().material=blueMat;    //if two species exist, change color
         // }else if (type==2){
@@ -103,6 +104,21 @@ public class Boid : MonoBehaviour {
         cachedTransform.forward = dir;
         position = cachedTransform.position;
         forward = dir;
+
+        //色を変える
+        Material[] material_array = new Material[10] {redMat, blueMat, greenMat, lightGreenMat, orangeMat, pinkMat, purpleMat, skyblueMat, whiteMat, yellowMat};
+        // this.type=type;
+        transform.GetChild(1).GetComponent<SkinnedMeshRenderer>().material=material_array[type+1];
+        //はみ出たboidをランダムに初期化
+        if (position.x < -50 || position.x > 50 || position.y < 0 || position.y > 20 || position.z < -50 || position.z > 50){
+            // position.x = 0;
+            // position.y = 10;
+            // position.z = 0;
+            type = 10;
+            var pos = new Vector3(0, 10, 0);
+            position = pos;
+            cachedTransform.position = pos;
+        }
     }
 
     bool IsHeadingForCollision () {         //障害物が進む先にあるかどうかを判定

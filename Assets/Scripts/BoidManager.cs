@@ -20,12 +20,13 @@ public class BoidManager : MonoBehaviour {
         boids = FindObjectsOfType<Boid> ();
         foreach (Boid b in boids) {
             int type;
-            if (existTwoSpecies){
-                float num = Random.value;
-                type = (int)(num*10);
-            }else{
-                type = 0;
-            }
+            type = 0;
+            // if (existTwoSpecies){
+            //     float num = Random.value;
+            //     type = (int)(num*10);
+            // }else{
+            //     type = 0;
+            // }
             // int type=existTwoSpecies ? (int)Mathf.Round(Random.value) : 0;     //2つの種族がいる場合は50:50になるように設定
             b.Initialize (settings,type);
         }

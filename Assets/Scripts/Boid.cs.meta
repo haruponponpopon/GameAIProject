@@ -3,7 +3,18 @@ guid: c53657e503d7a4738b0a9fa634fc1b92
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - material: {fileID: 2100000, guid: 9c40fbd36c3434b2abfffac3dc74c653, type: 2}
+  - redMat: {fileID: 2100000, guid: 4a83f9c53d7a74536be53df79ef1c0cf, type: 2}
+  - blueMat: {fileID: 2100000, guid: 4cf089456002947f5a69b1a5967819c1, type: 2}
+  - greenMat: {fileID: 2100000, guid: 6d0ee8a5c6d054c509b524c96ba4d7b5, type: 2}
+  - lightGreenMat: {fileID: 2100000, guid: bedc76c2160b3492db1d6af3b216cb6e, type: 2}
+  - orangeMat: {fileID: 2100000, guid: be8c425e2654a44408da0e09a53f925a, type: 2}
+  - pinkMat: {fileID: 2100000, guid: d57e640f7bb584fd6b3bc0074977c2f9, type: 2}
+  - purpleMat: {fileID: 2100000, guid: 82c47cc6199944e55b65d5509f5b8f8d, type: 2}
+  - skyblueMat: {fileID: 2100000, guid: 79027aa3a4a204824bc1bbf00ba78670, type: 2}
+  - whiteMat: {fileID: 2100000, guid: 819636448966249beb2567972c013759, type: 2}
+  - yellowMat: {fileID: 2100000, guid: 162ca0b3d129f4cb799c6d3f676dffbd, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
