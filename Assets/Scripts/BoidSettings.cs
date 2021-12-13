@@ -28,4 +28,7 @@ public class BoidSettings : ScriptableObject {
     public float avoidCollisionWeight = 10;
     public float collisionAvoidDst = 5;
 
+    [Header ("Avoid Enemy")]
+    public float avoidEnemyrange = 10;
+    public float avoidEnemyWeight = 1000;
 }

@@ -30,6 +30,12 @@ public class Boid : MonoBehaviour {
     public Vector3 centreOfFlockmates;
     [HideInInspector]
     public int numPerceivedFlockmates;
+    [HideInInspector]
+    public Vector3 centre0fEnemy;
+    [HideInInspector]
+    public Vector3 avgEnemyHeading;  //敵から逃げる向き
+    [HideInInspector]
+    public int numPerceivedEnemy;
 
     // Cached
     Material material;
@@ -84,6 +90,14 @@ public class Boid : MonoBehaviour {
             Vector3 collisionAvoidDir = ObstacleRays ();         //障害物を避ける方向を取得
             Vector3 collisionAvoidForce = SteerTowards (collisionAvoidDir) * settings.avoidCollisionWeight;   //障害物を避ける力
             acceleration += collisionAvoidForce;
+        }else if (numPerceivedEnemy != 0) {
+            //自分の周りにいる敵
+            centre0fEnemy /= numPerceivedEnemy;
+
+            Vector3 offsetToEnemyCentre = (centre0fEnemy-position);
+            var moveToEnemyForce = SteerTowards (offsetToEnemyCentre) * settings.avoidEnemyWeight;
+
+            acceleration -= moveToEnemyForce;//反対方向に向かう
         }
 
         velocity += acceleration * Time.deltaTime;        //加速度を用いて速度を変更する。

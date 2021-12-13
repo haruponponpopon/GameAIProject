@@ -1010,6 +1010,9 @@ MonoBehaviour:
   avgAvoidanceHeading: {x: 0, y: 0, z: 0}
   centreOfFlockmates: {x: 0, y: 0, z: 0}
   numPerceivedFlockmates: 0
+  centre0fEnemy: {x: 0, y: 0, z: 0}
+  avgEnemyHeading: {x: 0, y: 0, z: 0}
+  numPerceivedEnemy: 0
   redMat: {fileID: 2100000, guid: 4a83f9c53d7a74536be53df79ef1c0cf, type: 2}
   blueMat: {fileID: 2100000, guid: 4cf089456002947f5a69b1a5967819c1, type: 2}
   greenMat: {fileID: 2100000, guid: 6d0ee8a5c6d054c509b524c96ba4d7b5, type: 2}
@@ -1019,7 +1022,7 @@ MonoBehaviour:
   purpleMat: {fileID: 2100000, guid: 82c47cc6199944e55b65d5509f5b8f8d, type: 2}
   skyblueMat: {fileID: 2100000, guid: 79027aa3a4a204824bc1bbf00ba78670, type: 2}
   whiteMat: {fileID: 2100000, guid: 819636448966249beb2567972c013759, type: 2}
-  yellowMat: {fileID: 2100000, guid: bedc76c2160b3492db1d6af3b216cb6e, type: 2}
+  yellowMat: {fileID: 2100000, guid: 162ca0b3d129f4cb799c6d3f676dffbd, type: 2}
 --- !u!1 &1429181411819585514
 GameObject:
   m_ObjectHideFlags: 0
