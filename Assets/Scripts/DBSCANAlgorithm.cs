@@ -30,8 +30,8 @@ class Point
 public class DBSCANAlgorithm : MonoBehaviour
 {
     Boid[] boids;
-    double eps = 2.0;//小さくするほどクラスターが多くなる
-    int minPts = 3;//最小のグループ
+    public double eps = 1.8;//小さくするほどクラスターが多くなる
+    public int minPts = 3;//最小のグループ
     void Start()
     {
         List<Point> points = new List<Point>();//3次元座標のリスト
