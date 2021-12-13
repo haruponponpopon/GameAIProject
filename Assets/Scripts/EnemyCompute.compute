@@ -1,0 +1,47 @@
+//compute shaderを用いて近傍探索計算を高速化する。
+//コンピュートシェーダーの例
+//https://www.wwwmaplesyrup-cs6.work/entry/MapleComputeTutorial1
+
+#pragma kernel CSMain
+static const int threadGroupSize = 1;
+
+struct Enemy {
+    float3 position;
+    float3 direction;
+
+    // float3 flockHeading;
+    // float3 flockCentre;
+    // float3 separationHeading;
+    // int numFlockmates;
+
+    float3 boidCentre;
+    int numboids;
+};
+struct Boid {
+    float3 position;
+};
+
+RWStructuredBuffer<Enemy> enemies;
+RWStructuredBuffer<Boid> boids;
+int numEnemies;
+int numBoids;
+float viewRadius;
+float avoidRadius;
+float viewBoidRadius;
+
+[numthreads(threadGroupSize,1,1)]   //1024*1*1=1024スレッドを並列に実行
+void CSMain (uint3 id : SV_DispatchThreadID)
+{
+    //boid(近くにいる餌)が近くにいたら、boidに関する重心をアップデート
+    for (int indexA = 0; indexA < numBoids; indexA ++) {
+        Boid boidA = boids[indexA];
+        float3 offset = boidA.position - enemies[id.x].position;
+        float sqrDst = offset.x * offset.x + offset.y * offset.y + offset.z * offset.z;
+
+        //探索範囲内なら
+        if (sqrDst < viewBoidRadius * viewBoidRadius) {
+            enemies[id.x].numboids += 1;
+            enemies[id.x].boidCentre += boidA.position;
+        }
+    }
+}

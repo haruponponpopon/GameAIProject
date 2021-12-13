@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2019 Sebastian Lague
 Released under the MIT license
 https://github.com/SebLague/Boids/blob/master/LICENSE
@@ -8,9 +8,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Boid : MonoBehaviour {
+public class Enemy : MonoBehaviour {
 
-    BoidSettings settings;
+    EnemySettings settings;
 
     // State
     [HideInInspector]
@@ -23,26 +23,13 @@ public class Boid : MonoBehaviour {
     // To update:
     Vector3 acceleration;
     [HideInInspector]
-    public Vector3 avgFlockHeading;
+    public Vector3 centreOfBoids;
     [HideInInspector]
-    public Vector3 avgAvoidanceHeading;
-    [HideInInspector]
-    public Vector3 centreOfFlockmates;
-    [HideInInspector]
-    public int numPerceivedFlockmates;
+    public int numPerceivedBoids;
 
     // Cached
     Material material;
-    public Material redMat;
-    public Material blueMat;
-    public Material greenMat;
-    public Material lightGreenMat;
-    public Material orangeMat;
-    public Material pinkMat;
-    public Material purpleMat;
-    public Material skyblueMat;
-    public Material whiteMat;
-    public Material yellowMat;
+    public Material enemyMat;
 
     Transform cachedTransform;         //transformへのアクセスは重いのでキャッシュする
 
@@ -50,12 +37,11 @@ public class Boid : MonoBehaviour {
         cachedTransform = transform;
     }
 
-    public void Initialize (BoidSettings settings,int type) {
-        Material[] material_array = new Material[10] {redMat, lightGreenMat, yellowMat, skyblueMat, blueMat, greenMat, orangeMat, pinkMat, purpleMat, whiteMat};
+    public void Initialize (EnemySettings settings,int type) {
         this.settings = settings;
         this.type=type;
-        transform.GetChild(1).GetComponent<SkinnedMeshRenderer>().material=material_array[type%10];      
-
+        transform.GetChild(1).GetComponent<SkinnedMeshRenderer>().material=enemyMat;
+        
         position = cachedTransform.position;
         forward = cachedTransform.forward;
 
@@ -63,21 +49,17 @@ public class Boid : MonoBehaviour {
         velocity = transform.forward * startSpeed;
     }
 
-    public void UpdateBoid () {
+    public void UpdateEnemy () {
         Vector3 acceleration = Vector3.zero;
 
-        if (numPerceivedFlockmates != 0) {
-            centreOfFlockmates /= numPerceivedFlockmates;               //自分の周りにいる魚の重心を求める
+        if (numPerceivedBoids != 0) {
+            centreOfBoids /= numPerceivedBoids;               //自分の周りにいるboidの重心を求める
 
-            Vector3 offsetToFlockmatesCentre = (centreOfFlockmates - position);      //重心へのベクトル
+            Vector3 offsetToBoidsCentre = (centreOfBoids - position);      //重心へのベクトル
 
-            var alignmentForce = SteerTowards (avgFlockHeading) * settings.alignWeight;             //近くの魚が向かう方向に向かう力
-            var cohesionForce = SteerTowards (offsetToFlockmatesCentre) * settings.cohesionWeight;  //近くの魚の重心へ向かう力
-            var seperationForce = SteerTowards (avgAvoidanceHeading) * settings.seperateWeight;     //近づきすぎるのを避ける力
+            var cohesionForce = SteerTowards (offsetToBoidsCentre) * settings.cohesionWeight;  //近くの魚の重心へ向かう力
 
-            acceleration += alignmentForce;
             acceleration += cohesionForce;
-            acceleration += seperationForce;
         }
 
         if (IsHeadingForCollision ()) {
@@ -96,21 +78,14 @@ public class Boid : MonoBehaviour {
         cachedTransform.forward = dir;
         position = cachedTransform.position;
         forward = dir;
-        //はみ出たboidを中心に持っていく
+        //はみ出たenemyを中心に持っていく
         if (position.x < -25 || position.x > 25 || position.y < 0 || position.y > 10 || position.z < -25 || position.z > 25){
-            // position.x = 0;
-            // position.y = 10;
-            // position.z = 0;
-            Debug.Log("initialized\n");
+            Debug.Log("enemy initialized\n");
             type = 10;
             var pos = new Vector3(0, 5, 0);
             position = pos;
             cachedTransform.position = pos;
         }
-        //色を変える
-        Material[] material_array = new Material[10] {redMat, lightGreenMat, yellowMat, skyblueMat, blueMat, greenMat, orangeMat, pinkMat, purpleMat, whiteMat};
-        // this.type=type;
-        transform.GetChild(1).GetComponent<SkinnedMeshRenderer>().material=material_array[type%10];
     }
 
     bool IsHeadingForCollision () {         //障害物が進む先にあるかどうかを判定
