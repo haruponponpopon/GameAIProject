@@ -15,10 +15,6 @@ class Point
         this.Y = y;
         this.Z = z;
     }
-    public override string ToString()
-    {
-        return String.Format("({0}, {1}, {2})", X, Y, Z);
-    }
     public static float DistanceSquared(Point p1, Point p2)
     {
         float diffX = p2.X - p1.X;
@@ -47,34 +43,12 @@ public class DBSCANAlgorithm : MonoBehaviour
         {
             int count = clusters[i].Count;
             total += count;
-            // string plural = (count != 1) ? "s" : "";
-            // Console.WriteLine("\nCluster {0} consists of the following {1} point{2} :\n", i + 1, count, plural);
             // Debug.Log("Cluster" + i);
             foreach (int p in clusters[i]) {//pはboidsの何番目か
                 // Debug.Log(p);
                 boids[p].type = i;
-                // Console.Write(" {0} ", p);
             }
         }
-        // print any points which are NOISE
-        total = points.Count - total;
-        // Debug.Log(total+" points are noise\n");
-        if (total > 0)
-        {
-            string plural = (total != 1) ? "s" : "";
-            string verb = (total != 1) ? "are" : "is";
-            // Console.WriteLine("\nThe following {0} point{1} {2} NOISE :\n", total, plural, verb);
-            foreach (Point p in points)
-            {
-                if (p.ClusterId == Point.NOISE) Console.Write(" {0} ", p);
-            }
-            Console.WriteLine();
-        }
-        else
-        {
-            Console.WriteLine("\nNo points are NOISE");
-        }
-        Console.ReadKey();
     }
     void Update()
     {
@@ -84,11 +58,7 @@ public class DBSCANAlgorithm : MonoBehaviour
             points.Add(new Point(b.position[0], b.position[1], b.position[2]));
         }
         List<List<int>> clusters = GetClusters(points, eps, minPts);
-        // print points to console
-        // Debug.Log("The " + points.Count +  " points are :\n");
-        // print clusters to console
         int total = 0;
-        // Debug.Log("----Cluster count is " + clusters.Count + "\n");
         for (int i = 0; i < clusters.Count; i++)
         {
             int count = clusters[i].Count;
@@ -104,22 +74,6 @@ public class DBSCANAlgorithm : MonoBehaviour
         // print any points which are NOISE
         total = points.Count - total;
         // Debug.Log(total+" points are noise\n");
-        if (total > 0)
-        {
-            string plural = (total != 1) ? "s" : "";
-            string verb = (total != 1) ? "are" : "is";
-            // Console.WriteLine("\nThe following {0} point{1} {2} NOISE :\n", total, plural, verb);
-            foreach (Point p in points)
-            {
-                if (p.ClusterId == Point.NOISE) Console.Write(" {0} ", p);
-            }
-            Console.WriteLine();
-        }
-        else
-        {
-            Console.WriteLine("\nNo points are NOISE");
-        }
-        Console.ReadKey();
     }
     static List<List<int>> GetClusters(List<Point> points, double eps, int minPts)
     {
