@@ -51,7 +51,7 @@ public class Boid : MonoBehaviour {
     }
 
     public void Initialize (BoidSettings settings,int type) {
-        Material[] material_array = new Material[10] {blueMat, redMat, greenMat, lightGreenMat, orangeMat, pinkMat, purpleMat, skyblueMat, whiteMat, yellowMat};
+        Material[] material_array = new Material[10] {redMat, lightGreenMat, yellowMat, skyblueMat, blueMat, greenMat, orangeMat, pinkMat, purpleMat, whiteMat};
         this.settings = settings;
         this.type=type;
         transform.GetChild(1).GetComponent<SkinnedMeshRenderer>().material=material_array[type%10];
@@ -116,7 +116,7 @@ public class Boid : MonoBehaviour {
             cachedTransform.position = pos;
         }
         //色を変える
-        Material[] material_array = new Material[10] {blueMat, redMat, greenMat, lightGreenMat, orangeMat, pinkMat, purpleMat, skyblueMat, whiteMat, yellowMat};
+        Material[] material_array = new Material[10] {redMat, lightGreenMat, yellowMat, skyblueMat, blueMat, greenMat, orangeMat, pinkMat, purpleMat, whiteMat};
         // this.type=type;
         transform.GetChild(1).GetComponent<SkinnedMeshRenderer>().material=material_array[type%10];
     }
