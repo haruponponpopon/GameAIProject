@@ -6,7 +6,7 @@ using System.Linq;
 
 class Point
 {
-    public const int NOISE = -1;
+    public const int NOISE = 9;
     public const int UNCLASSIFIED = 0;
     public float X, Y, Z, ClusterId;
     public Point(float x, float y, float z)
@@ -23,7 +23,7 @@ class Point
     {
         float diffX = p2.X - p1.X;
         float diffY = p2.Y - p1.Y;
-        float diffZ = p2.Z - p2.Z;
+        float diffZ = p2.Z - p1.Z;
         return diffX * diffX + diffY * diffY + diffZ * diffZ;
     }
 }
@@ -31,22 +31,18 @@ public class DBSCANAlgorithm : MonoBehaviour
 {
     Boid[] boids;
     double eps = 2.0;//小さくするほどクラスターが多くなる
-    int minPts = 1;
+    int minPts = 3;//最小のグループ
     void Start()
     {
-        List<Point> points = new List<Point>();
+        List<Point> points = new List<Point>();//3次元座標のリスト
         boids = FindObjectsOfType<Boid> ();
         foreach (Boid b in boids) {
             points.Add(new Point(b.position[0], b.position[1], b.position[2]));
         }
-        List<List<int>> clusters = GetClusters(points, eps, minPts);
-        Console.Clear();
-        // print points to console
-        // Console.WriteLine("The {0} points are :\n", points.Count);
-        // Debug.Log("The " + points.Count +  " points are :\n");
-        // print clusters to console
+        List<List<int>> clusters = GetClusters(points, eps, minPts);//特定のクラスターの属するidを返す
         int total = 0;
-        Debug.Log("Cluster count is " + clusters.Count + "\n");
+        // Debug.Log("Cluster count is " + clusters.Count + "\n");
+        Debug.Log(clusters);
         for (int i = 0; i < clusters.Count; i++)
         {
             int count = clusters[i].Count;
@@ -92,7 +88,7 @@ public class DBSCANAlgorithm : MonoBehaviour
         // Debug.Log("The " + points.Count +  " points are :\n");
         // print clusters to console
         int total = 0;
-        Debug.Log("Cluster count is " + clusters.Count + "\n");
+        Debug.Log("----Cluster count is " + clusters.Count + "\n");
         for (int i = 0; i < clusters.Count; i++)
         {
             int count = clusters[i].Count;
@@ -107,6 +103,7 @@ public class DBSCANAlgorithm : MonoBehaviour
         }
         // print any points which are NOISE
         total = points.Count - total;
+        Debug.Log(total+" points are noise\n");
         if (total > 0)
         {
             string plural = (total != 1) ? "s" : "";

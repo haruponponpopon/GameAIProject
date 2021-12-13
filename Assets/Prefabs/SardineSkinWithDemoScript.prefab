@@ -1414,6 +1414,7 @@ MonoBehaviour:
   avgAvoidanceHeading: {x: 0, y: 0, z: 0}
   centreOfFlockmates: {x: 0, y: 0, z: 0}
   numPerceivedFlockmates: 0
+  redMat: {fileID: 2100000, guid: 4a83f9c53d7a74536be53df79ef1c0cf, type: 2}
   blueMat: {fileID: 2100000, guid: 4cf089456002947f5a69b1a5967819c1, type: 2}
   greenMat: {fileID: 2100000, guid: 6d0ee8a5c6d054c509b524c96ba4d7b5, type: 2}
   lightGreenMat: {fileID: 2100000, guid: bedc76c2160b3492db1d6af3b216cb6e, type: 2}
