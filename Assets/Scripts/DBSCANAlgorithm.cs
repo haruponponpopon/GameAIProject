@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.Linq;
+using UnityEngine.UI;
 
 class Point
 {
-    public const int NOISE = 10;
+    public const int NOISE = 100;
     public const int UNCLASSIFIED = 0;
     public float X, Y, Z, ClusterId;
     public Point(float x, float y, float z)
@@ -28,8 +29,12 @@ public class DBSCANAlgorithm : MonoBehaviour
     Boid[] boids;
     public double eps = 1.8;//小さくするほどクラスターが多くなる
     public int minPts = 3;//最小のグループ
+    GameObject clusterNum;
     void Start()
     {
+        //Textの処理
+        this.clusterNum = GameObject.Find("Cluster_num");
+
         List<Point> points = new List<Point>();//3次元座標のリスト
         boids = FindObjectsOfType<Boid> ();
         foreach (Boid b in boids) {
@@ -58,22 +63,17 @@ public class DBSCANAlgorithm : MonoBehaviour
             points.Add(new Point(b.position[0], b.position[1], b.position[2]));
         }
         List<List<int>> clusters = GetClusters(points, eps, minPts);
-        int total = 0;
+        int cluster_count = 0;
         for (int i = 0; i < clusters.Count; i++)
         {
-            int count = clusters[i].Count;
-            total += count;
-            // Debug.Log("Cluster" + i);
-            // Debug.Log(count);
+            if (i<90&&clusters[i].Count>0)cluster_count++;
             foreach (int p in clusters[i]) {
-                // Debug.Log(p);
                 boids[p].type = i;
             }
             Console.WriteLine();
         }
-        // print any points which are NOISE
-        total = points.Count - total;
-        // Debug.Log(total+" points are noise\n");
+        //Textの更新
+        this.clusterNum.GetComponent<Text>().text = "cluster: " + cluster_count.ToString();
     }
     static List<List<int>> GetClusters(List<Point> points, double eps, int minPts)
     {
