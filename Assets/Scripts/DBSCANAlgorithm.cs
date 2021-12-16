@@ -30,6 +30,9 @@ public class DBSCANAlgorithm : MonoBehaviour
     public double eps = 1.8;//小さくするほどクラスターが多くなる
     public int minPts = 3;//最小のグループ
     GameObject clusterNum;
+    // double totalTime = 0;
+    int timeFactorNum = 0;
+    int clusterCount = 0;
     void Start()
     {
         //Textの処理
@@ -57,6 +60,10 @@ public class DBSCANAlgorithm : MonoBehaviour
     }
     void Update()
     {
+        //時間の計測
+        // var sw = new System.Diagnostics.Stopwatch();
+        // sw.Start ();
+
         List<Point> points = new List<Point>();
         boids = FindObjectsOfType<Boid> ();
         foreach (Boid b in boids) {
@@ -74,6 +81,18 @@ public class DBSCANAlgorithm : MonoBehaviour
         }
         //Textの更新
         this.clusterNum.GetComponent<Text>().text = "cluster: " + cluster_count.ToString();
+        // sw.Stop(); //計測終了
+        // totalTime += sw.Elapsed.TotalMilliseconds;
+        timeFactorNum++;
+        clusterCount += cluster_count;
+        if (timeFactorNum==1000){
+            // Debug.Log("total time: " + totalTime.ToString());
+            // Debug.Log("count: " + timeFactorNum.ToString());
+            Debug.Log("cluster count: " + clusterCount.ToString());
+            // totalTime = 0;
+            timeFactorNum = 0;
+            clusterCount = 0;
+        }
     }
     static List<List<int>> GetClusters(List<Point> points, double eps, int minPts)
     {

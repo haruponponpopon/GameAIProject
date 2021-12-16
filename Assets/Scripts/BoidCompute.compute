@@ -47,7 +47,8 @@ void CSMain (uint3 id : SV_DispatchThreadID)
             //boids[indexB]が探索範囲内かつ同種族なら、群れの重心と進行方向をアップデートする。
             //boids[indexB]が同種族なら、アップデート
             // if (sqrDst < viewRadius * viewRadius && boidB.type==boids[id.x].type) {
-            if (boidB.type==boids[id.x].type) {
+            if (sqrDst < viewRadius * viewRadius){//original
+            // if (boidB.type==boids[id.x].type) {//DBSCAN
                 boids[id.x].numFlockmates += 1;
                 boids[id.x].flockHeading += boidB.direction;
                 boids[id.x].flockCentre += boidB.position;

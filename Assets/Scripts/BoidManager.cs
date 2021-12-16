@@ -6,6 +6,7 @@ https://github.com/SebLague/Boids/blob/master/LICENSE
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class BoidManager : MonoBehaviour {
 
@@ -16,6 +17,9 @@ public class BoidManager : MonoBehaviour {
     Boid[] boids;
     Enemy[] enemies;
     public bool existTwoSpecies;
+
+    double totalTime = 0;
+    int timeFactorNum = 0;
 
     void Start () {
         boids = FindObjectsOfType<Boid> ();
@@ -67,7 +71,19 @@ public class BoidManager : MonoBehaviour {
             compute.SetFloat ("avoidRadius", settings.avoidanceRadius);
 
             int threadGroups = Mathf.CeilToInt (numBoids / (float) threadGroupSize);
+            var sw = new System.Diagnostics.Stopwatch();
+            sw.Start ();
             compute.Dispatch (0, threadGroups, 1, 1);     //コンピュートシェーダーを実行
+            // // Debug.Log(sw.Elapsed.TotalMilliseconds); //経過時間
+            sw.Stop(); //計測終了
+            totalTime += sw.Elapsed.TotalMilliseconds;
+            timeFactorNum++;
+            if (timeFactorNum==1000){
+                Debug.Log(totalTime);
+                // Debug.Log(timeFactorNum);
+                totalTime = 0;
+                timeFactorNum = 0;
+            }
 
             boidBuffer.GetData (boidData);
 

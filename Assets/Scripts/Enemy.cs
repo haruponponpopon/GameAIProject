@@ -80,7 +80,7 @@ public class Enemy : MonoBehaviour {
         forward = dir;
         //はみ出たenemyを中心に持っていく
         if (position.x < -25 || position.x > 25 || position.y < 0 || position.y > 10 || position.z < -25 || position.z > 25){
-            Debug.Log("enemy initialized\n");
+            // Debug.Log("enemy initialized\n");
             type = 10;
             var pos = new Vector3(0, 5, 0);
             position = pos;
