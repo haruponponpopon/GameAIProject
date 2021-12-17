@@ -38,6 +38,14 @@ float viewEnemyRadius;
 [numthreads(threadGroupSize,1,1)]   //1024*1*1=1024スレッドを並列に実行
 void CSMain (uint3 id : SV_DispatchThreadID)
 {
+    //タイルアルゴリズム
+    // int co = boids[id.x].type;
+    // int z = co%100;
+    // co /= 100;
+    // int y = co%100;
+    // co /= 100;
+    // int x = co;
+    // end
     for (int indexB = 0; indexB < numBoids; indexB ++) {
         if (id.x != indexB) {
             Boid boidB = boids[indexB];
@@ -47,8 +55,22 @@ void CSMain (uint3 id : SV_DispatchThreadID)
             //boids[indexB]が探索範囲内かつ同種族なら、群れの重心と進行方向をアップデートする。
             //boids[indexB]が同種族なら、アップデート
             // if (sqrDst < viewRadius * viewRadius && boidB.type==boids[id.x].type) {
-            if (sqrDst < viewRadius * viewRadius){//original
-            // if (boidB.type==boids[id.x].type) {//DBSCAN
+            // if (sqrDst < viewRadius * viewRadius){//original
+            if (boidB.type==boids[id.x].type) {//DBSCAN
+
+            // //タイルアルゴリズム
+            // bool flag = false;
+            // for (int i=max(0,x-1); i<=x+1; i++){
+            //     for (int j=max(0,y-1); j<=y+1; j++){
+            //         for (int k=max(0,z-1); k<=z+1; k++){
+            //             int r = i*10000+j*100+k;
+            //             if (r==boidB.type)flag = true;
+            //         }
+            //     }
+            // }
+            // //end
+
+            // if (flag){//tile
                 boids[id.x].numFlockmates += 1;
                 boids[id.x].flockHeading += boidB.direction;
                 boids[id.x].flockCentre += boidB.position;

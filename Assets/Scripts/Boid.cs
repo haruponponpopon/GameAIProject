@@ -50,6 +50,7 @@ public class Boid : MonoBehaviour {
     public Material skyblueMat;
     public Material whiteMat;
     public Material yellowMat;
+    public Material leafgreenMat;
 
     Transform cachedTransform;         //transformへのアクセスは重いのでキャッシュする
 
@@ -58,11 +59,12 @@ public class Boid : MonoBehaviour {
     }
 
     public void Initialize (BoidSettings settings,int type) {
-        Material[] material_array = new Material[11] {lightgreenMat, sarmonpinkMat, yellowMat, skyblueMat, pinkMat, blueMat, greenMat, orangeMat, purpleMat, limegreenMat, whiteMat};
+        Material[] material_array = new Material[12] {lightgreenMat, sarmonpinkMat, yellowMat, skyblueMat, pinkMat, blueMat, greenMat, orangeMat, purpleMat, limegreenMat, leafgreenMat, whiteMat};
+        // Material[] material_array = new Material[12] {orangeMat, yellowMat, leafgreenMat, lightgreenMat, greenMat, limegreenMat, skyblueMat, blueMat, purpleMat, pinkMat, sarmonpinkMat, whiteMat};
         this.settings = settings;
         this.type=type;
-        if (type!=99)transform.GetChild(1).GetComponent<SkinnedMeshRenderer>().material=material_array[type%10];
-        else transform.GetChild(1).GetComponent<SkinnedMeshRenderer>().material=material_array[10];
+        if (type!=99)transform.GetChild(1).GetComponent<SkinnedMeshRenderer>().material=material_array[type%11];
+        else transform.GetChild(1).GetComponent<SkinnedMeshRenderer>().material=material_array[11];
 
         position = cachedTransform.position;
         forward = cachedTransform.forward;
@@ -124,9 +126,10 @@ public class Boid : MonoBehaviour {
             cachedTransform.position = pos;
         }
         //色を変える
-        Material[] material_array = new Material[11] {lightgreenMat, sarmonpinkMat, yellowMat, skyblueMat, pinkMat, blueMat, greenMat, orangeMat, purpleMat, limegreenMat, whiteMat};
-        if (type!=99)transform.GetChild(1).GetComponent<SkinnedMeshRenderer>().material=material_array[type%10];
-        else transform.GetChild(1).GetComponent<SkinnedMeshRenderer>().material=material_array[10];
+        Material[] material_array = new Material[12] {lightgreenMat, sarmonpinkMat, yellowMat, skyblueMat, pinkMat, blueMat, greenMat, orangeMat, purpleMat, limegreenMat, leafgreenMat, whiteMat};
+        // Material[] material_array = new Material[12] {orangeMat, yellowMat, leafgreenMat, lightgreenMat, greenMat, limegreenMat, skyblueMat, blueMat, purpleMat, pinkMat, sarmonpinkMat, whiteMat};
+        if (type!=99)transform.GetChild(1).GetComponent<SkinnedMeshRenderer>().material=material_array[type%11];
+        else transform.GetChild(1).GetComponent<SkinnedMeshRenderer>().material=material_array[11];
     }
 
     bool IsHeadingForCollision () {         //障害物が進む先にあるかどうかを判定

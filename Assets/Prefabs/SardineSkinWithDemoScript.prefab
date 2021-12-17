@@ -1024,6 +1024,7 @@ MonoBehaviour:
   skyblueMat: {fileID: 2100000, guid: 79027aa3a4a204824bc1bbf00ba78670, type: 2}
   whiteMat: {fileID: 2100000, guid: 819636448966249beb2567972c013759, type: 2}
   yellowMat: {fileID: 2100000, guid: 162ca0b3d129f4cb799c6d3f676dffbd, type: 2}
+  leafgreenMat: {fileID: 2100000, guid: 621fb9ee2b6c4472494663260b3cde7a, type: 2}
 --- !u!1 &1429181411819585514
 GameObject:
   m_ObjectHideFlags: 0

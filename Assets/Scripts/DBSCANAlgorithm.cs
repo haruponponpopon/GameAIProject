@@ -30,9 +30,9 @@ public class DBSCANAlgorithm : MonoBehaviour
     public double eps = 1.8;//小さくするほどクラスターが多くなる
     public int minPts = 3;//最小のグループ
     GameObject clusterNum;
-    // double totalTime = 0;
+    double totalTime = 0;
     int timeFactorNum = 0;
-    int clusterCount = 0;
+    // int clusterCount = 0;
     void Start()
     {
         //Textの処理
@@ -61,11 +61,11 @@ public class DBSCANAlgorithm : MonoBehaviour
     void Update()
     {
         //時間の計測
-        // var sw = new System.Diagnostics.Stopwatch();
-        // sw.Start ();
+        var sw = new System.Diagnostics.Stopwatch();
+        sw.Start ();
+        boids = FindObjectsOfType<Boid> ();
 
         List<Point> points = new List<Point>();
-        boids = FindObjectsOfType<Boid> ();
         foreach (Boid b in boids) {
             points.Add(new Point(b.position[0], b.position[1], b.position[2]));
         }
@@ -77,21 +77,20 @@ public class DBSCANAlgorithm : MonoBehaviour
             foreach (int p in clusters[i]) {
                 boids[p].type = i;
             }
-            Console.WriteLine();
         }
         //Textの更新
-        this.clusterNum.GetComponent<Text>().text = "cluster: " + cluster_count.ToString();
-        // sw.Stop(); //計測終了
-        // totalTime += sw.Elapsed.TotalMilliseconds;
+        // this.clusterNum.GetComponent<Text>().text = "cluster: " + cluster_count.ToString();
+        sw.Stop(); //計測終了
+        totalTime += sw.Elapsed.TotalMilliseconds;
         timeFactorNum++;
-        clusterCount += cluster_count;
+        // clusterCount += cluster_count;
         if (timeFactorNum==1000){
-            // Debug.Log("total time: " + totalTime.ToString());
+            Debug.Log("total time: " + totalTime.ToString());
             // Debug.Log("count: " + timeFactorNum.ToString());
-            Debug.Log("cluster count: " + clusterCount.ToString());
-            // totalTime = 0;
+            // Debug.Log("cluster count: " + clusterCount.ToString());
+            totalTime = 0;
             timeFactorNum = 0;
-            clusterCount = 0;
+            // clusterCount = 0;
         }
     }
     static List<List<int>> GetClusters(List<Point> points, double eps, int minPts)
@@ -163,3 +162,56 @@ public class DBSCANAlgorithm : MonoBehaviour
         }
     }
 }
+
+// public class DBSCANAlgorithm : MonoBehaviour
+// {
+//     Boid[] boids;
+//     public double len = 50;//小さくするほどクラスターが多くなる
+//     double totalTime = 0;
+//     int timeFactorNum = 0;
+//     // int clusterCount = 0;
+//     void Start()
+//     {
+//         boids = FindObjectsOfType<Boid> ();
+//         foreach (Boid b in boids) {
+//             int x = (int)((b.position[0]+25)/len);
+//             int y = (int)(b.position[1]/len);
+//             int z = (int)((b.position[2]+25)/len);
+//             b.type = x*10000+y*100+z;
+//             // Debug.Log("x: " + x.ToString() + "x: " + b.position[0].ToString());
+//             // Debug.Log("y: " + y.ToString() + "y: " + b.position[1].ToString());
+//             // Debug.Log("z: " + z.ToString() + "z: " + b.position[2].ToString());
+//             // Debug.Log(b.type);
+//         }
+//     }
+//     void Update()
+//     {
+//         //時間の計測
+//         var sw = new System.Diagnostics.Stopwatch();
+//         sw.Start ();
+//         boids = FindObjectsOfType<Boid> ();
+//         foreach (Boid b in boids) {
+//             int x = (int)((b.position[0]+25)/len);
+//             int y = (int)(b.position[1]/len);
+//             int z = (int)((b.position[2]+25)/len);
+//             // Debug.Log("x: " + x.ToString());
+//             // Debug.Log("y: " + y.ToString());
+//             // Debug.Log("z: " + z.ToString());
+//             b.type = x*10000+y*100+z;
+//         }
+//         //Textの更新
+//         // this.clusterNum.GetComponent<Text>().text = "cluster: " + cluster_count.ToString();
+//         sw.Stop(); //計測終了
+//         totalTime += sw.Elapsed.TotalMilliseconds;
+//         timeFactorNum++;
+//         // clusterCount += cluster_count;
+//         if (timeFactorNum==1000){
+//             Debug.Log("total time: " + totalTime.ToString());
+//             // Debug.Log("count: " + timeFactorNum.ToString());
+//             // Debug.Log("cluster count: " + clusterCount.ToString());
+//             totalTime = 0;
+//             timeFactorNum = 0;
+//             // clusterCount = 0;
+//         }
+//     }
+// }
